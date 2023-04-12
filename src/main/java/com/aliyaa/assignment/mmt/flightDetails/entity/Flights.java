@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,7 +28,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "flight_details")
 public class Flights {
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="flightNumber")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="flightNumber", fetch = FetchType.EAGER)
 	@JsonManagedReference
 	private List<FareDetails> fareDetails;
 
@@ -36,15 +37,16 @@ public class Flights {
 	@Column(name = "flight_number", nullable = true)
 	private int flightNumber;
 
-	@Column(name = "airlines", nullable = false)
+	
+	   @Column(name = "airlines", nullable = false, length=5)
 	private String airlines;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@Column(name = "departure_date")
+	@Column(name = "departure_date", nullable = false)
 	private LocalDate departureDate;
 
 	@JsonFormat(pattern = "HH:mm:ss")
-	@Column(name = "departure_time")
+	@Column(name = "departure_time", nullable = false)
 	private LocalTime departureTime;
 
 	public LocalDate getDepartureDate() {
@@ -174,10 +176,10 @@ public class Flights {
 		this.destination = destination;
 	}
 
-	@Column(name = "source", nullable = false)
+	@Column(name = "source", nullable = false, length=5)
 	private String source;
 
-	@Column(name = "destination", nullable = false)
+	@Column(name = "destination", nullable = false, length=5)
 	private String destination;
 
 	
