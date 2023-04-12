@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
@@ -60,12 +63,23 @@ public Optional<Flights> findByFlightNumber(int flightNumber) {
 	return flightDetailSerRepo.findById(flightNumber);
 }
 
+@Override
+public List<Flights> searchAndPaging(Integer pageSize,Integer pageNumber) {
+	// TODO Auto-generated method stub
+	Pageable pageable=PageRequest.of(pageNumber, pageSize);
+	Page<Flights> pageFlights=flightDetailSerRepo.findAll(pageable);
+	List<Flights> allFlights=pageFlights.getContent();
+	return  allFlights;
+}
 
 
 @Override
-public List<Flights> findAllFlights() {
+public List<Flights> findAllFlights(Integer pageNumber,Integer pageSize) {
 	// TODO Auto-generated method stub
-	return flightDetailSerRepo.findAll();
+	Pageable pageable=PageRequest.of(pageNumber, pageSize);
+	Page<Flights> pageFlights=flightDetailSerRepo.findAll(pageable);
+	List<Flights> allFlights=pageFlights.getContent();
+	return  allFlights;
 }
 
 
@@ -77,16 +91,21 @@ public Optional<Flights> findById(int flightNumber) {
 	return Optional.empty();
 }
 
-public List<Flights>  findBySourceAndDestinationAndDepartureDateAndClassType(@Param("source") String source, @Param("destination") String destination ,
-		@Param("departureDate") LocalDate departureDate, @Param("classType") String classType){
-	return flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassType(source,destination,departureDate,classType);
+public List<Flights>  findBySourceAndDestinationAndDepartureDateAndClassType(
+		@Param("source") String source, 
+		@Param("destination") String destination ,
+		@Param("departureDate") LocalDate departureDate, 
+		@Param("classType") String classType){
+	return flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassType(source,
+			destination,departureDate,classType);
 
 
 }
 @Override
 public List<Flights> searchFlights(String source, String destination, LocalDate departureDate, String classType) {
 	
-List<Flights> flights= flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassType(source, destination, departureDate, classType);
+List<Flights> flights= flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassType(source, 
+		destination, departureDate, classType);
  for(Flights flight:flights)
  {
 	 flight.getFareDetails().removeIf(fareDetail -> !fareDetail.getClassType().equals(classType));
@@ -97,9 +116,11 @@ List<Flights> flights= flightDetailSerRepo.findBySourceAndDestinationAndDepartur
 
 
 @Override
-public List<Flights> findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByDuration(String source, String destination, LocalDate departureDate, String classType) {
+public List<Flights> findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByDuration(
+		String source, String destination, LocalDate departureDate, String classType) {
 	// TODO Auto-generated method stub
-	return flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByDuration(source, destination, departureDate, classType);
+	return flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByDuration(
+			source, destination, departureDate, classType);
 }
 
 
@@ -108,7 +129,8 @@ public List<Flights> findBySourceAndDestinationAndDepartureDateAndFareDetailsCla
 public List<Flights> sortFlight1(String source, String destination,
 		LocalDate departureDate, String classType) {
 	// TODO Auto-generated method stub
-	return flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByDuration(source,destination,departureDate,classType);
+	return flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByDuration(
+			source,destination,departureDate,classType);
 }
 
 
@@ -117,7 +139,8 @@ public List<Flights> sortFlight1(String source, String destination,
 public List<Flights> findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByFareDetailsFare(String source,
 		String destination, LocalDate departureDate, String classType) {
 	// TODO Auto-generated method stub
-	return flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByFareDetailsFare(source, destination, departureDate, classType);
+	return flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByFareDetailsFare(
+			source, destination, departureDate, classType);
 
 }
 
@@ -126,7 +149,8 @@ public List<Flights> findBySourceAndDestinationAndDepartureDateAndFareDetailsCla
 @Override
 public List<Flights> sortFlight2(String source, String destination, LocalDate departureDate, String classType) {
 	// TODO Auto-generated method stub
-	return flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByFareDetailsFare(source,destination,departureDate,classType);
+	return flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByFareDetailsFare(
+			source,destination,departureDate,classType);
 
 }
 
@@ -137,7 +161,8 @@ public List<Flights> filterByMorning(String source, String destination, LocalDat
 	LocalTime check;
 	LocalTime a=LocalTime.of(05,00,00);
 	LocalTime b=LocalTime.of(12,00,00);
-List<Flights> flights= flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassType(source, destination, departureDate, classType);
+List<Flights> flights= flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassType(
+		source, destination, departureDate, classType);
 List<Flights> newFlights=new ArrayList<>();
 
 for(Flights flight:flights)
@@ -159,7 +184,8 @@ public List<Flights> filterByEvening(String source, String destination, LocalDat
 	LocalTime a=LocalTime.of(17,59,59);
 	LocalTime b=LocalTime.of(23,59,59);
 	   
-List<Flights> flights= flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassType(source, destination, departureDate, classType);
+List<Flights> flights= flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassType(
+		source, destination, departureDate, classType);
 List<Flights> newFlights = new ArrayList<>();
 for(Flights flight:flights)
  {
@@ -202,7 +228,8 @@ private static void removeFlight(List<Flights> flights, Flights flight) {
 /*
 
 @Override
-public List<FlightDetailsCreate> findByDestinationandSourceandDepartureDate(@PathVariable String source, @PathVariable("destination") String destination,
+public List<FlightDetailsCreate> findByDestinationandSourceandDepartureDate(
+@PathVariable String source, @PathVariable("destination") String destination,
 		@PathVariable("departureDate") LocalDate departureDate) {
 	// TODO Auto-generated method stub
 	return flightDetailSerRepo.findByDestinationandSourceandDepartueDate(source, destination,departureDate);

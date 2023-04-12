@@ -54,12 +54,28 @@ public class Validations extends RuntimeException {
 
 		}
 	}
+	public void dates(LocalDate date) throws IOException
+	{
+		
+		if(date==null )
+		{
+			
+			throw new IOException("Enter the dates. Do not leave an empty field");
+		}
+	}
 
 	public void filter(String filterType) throws IOException {
 		if (filterType.equals("morning") || filterType.equals("evening")) {
 
 		} else {
 			throw new IOException("Enter valid filter type. Filter type can only be morning or evening.");
+		}
+	}
+	public void sourceAndDestination(String source, String destination) throws IOException
+	{
+		if(source.isEmpty() || destination.isEmpty())
+		{
+			throw new IOException("Enter the source and destination. Do not leave an empty field");
 		}
 	}
 }

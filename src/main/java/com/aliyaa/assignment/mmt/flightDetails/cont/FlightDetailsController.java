@@ -45,7 +45,8 @@ public class FlightDetailsController {
 	}
 	/*
 	@GetMapping("/search/{source}/{destination}/{departureDate}")
-	public List<FlightDetailsCreate> findByDestinationandSourceandDepartureDate(@PathVariable String source, @PathVariable("destination") String destination,
+	public List<FlightDetailsCreate> findByDestinationandSourceandDepartureDate(@PathVariable String source, 
+	@PathVariable("destination") String destination,
 			@PathVariable("departureDate") LocalDate departureDate) {
 		// TODO Auto-generated method stub
 		return flightService.findByDestinationandSourceandDepartueDate(source, destination,departureDate);
@@ -72,9 +73,11 @@ public class FlightDetailsController {
 	}
 
 	@GetMapping("/getAllFlights")
-	public List<Flights> getFlightDetail()
+	public List<Flights> getFlightDetail(@RequestParam(value="pageNumber",defaultValue="1", required=false) 
+	Integer pageNumber,
+			@RequestParam(value="pageSize",defaultValue="10", required=false) Integer pageSize)
 	{
-		return (List<Flights>) flightService.findAllFlights();
+		return (List<Flights>) flightService.findAllFlights(pageNumber,pageSize);
 	}
 	
 	@GetMapping("/getAllFlights/{flightNumber}")
@@ -104,12 +107,19 @@ public class FlightDetailsController {
 	return "Deleted All flight";
 	}
 	@GetMapping("/searchFlight")
-	public ResponseEntity<List<FlightsDTO>>  findFlights(@RequestParam("source") String source, @RequestParam("destination") String destination ,
-			@RequestParam("departureDate") LocalDate departureDate, @RequestParam("classType") String classType,
-			@RequestParam(required=false) String roundTrip ,@RequestParam(required=false) LocalDate returnDate, @RequestParam(required=false) String sort,
-			@RequestParam(required=false) String sortingType,@RequestParam(required=false) String departure, @RequestParam(required=false) String departureType ) throws IOException {
+	public ResponseEntity<List<FlightsDTO>>  findFlights(@RequestParam("source") String source, 
+			@RequestParam("destination") String destination ,
+			@RequestParam( required =false) LocalDate departureDate, @RequestParam("classType") String classType,
+			@RequestParam(required=false) String roundTrip,@RequestParam(required=false) LocalDate returnDate,
+			@RequestParam(required=false) String sort,
+			@RequestParam(required=false) String sortingType,@RequestParam(required=false) String departure,
+			@RequestParam(required=false) String departureType,
+			@RequestParam(value="pageNumber",defaultValue="1", required=false) Integer pageNumber ,
+			@RequestParam(value="pageSize",defaultValue="10", required=false) Integer pageSize) throws IOException {
 		classType = classType.toLowerCase();
 		classType = StringUtils.capitalize(classType);
+		validations.sourceAndDestination(source, destination);
+		validations.dates(departureDate);
 		validations.classValid(classType.toLowerCase());
 			validations.trueFalse(departure.toLowerCase());
 			validations.trueFalse(sort.toLowerCase());
@@ -121,6 +131,7 @@ public class FlightDetailsController {
 
 		if(roundTrip.toLowerCase().equals("true"))
 		{
+			validations.dates(returnDate);
 		validations.departAndArriveDate(departureDate,returnDate);
 			List<Flights> roundWayTripFlights=flightService.searchFlights(destination,source,returnDate,classType);
 			oneWayTripFlights.addAll(roundWayTripFlights);
@@ -187,7 +198,8 @@ public class FlightDetailsController {
 			}
 			
 		}
-		List<FlightsDTO> abc =  oneWayTripFlights.stream().map(flights-> new FlightsDTO(
+		oneWayTripFlights=flightService.searchAndPaging(pageSize,pageNumber);
+		List<FlightsDTO> flightsFound =  oneWayTripFlights.stream().map(flights-> new FlightsDTO(
 				flights.getAirlines(),
 				flights.getDepartureTime(),
 				flights.getArrivalTime(),
@@ -195,13 +207,17 @@ public class FlightDetailsController {
 				flights.getFareDetails().stream().mapToInt(FareDetails::getFare)
 				)).collect(Collectors.toList())
 				;
-		
-		return new ResponseEntity<>(abc, HttpStatus.OK);
+	//	flightsFound=flightsFound.searchingAndPaging(pageSize,pageNumber);
+		return new ResponseEntity<>(flightsFound, HttpStatus.OK);
 
 	}
 
-		
-
+	/*	public Page<FlightsDTO> pageable(Integer pageNumber)
+		{
+			Pageable pageable=PageRequest.of(pageNumber, 10);
+			return flightService.
+		}
+*/
 		
 		@GetMapping("/search")	
 	public String search(@RequestParam String source, 

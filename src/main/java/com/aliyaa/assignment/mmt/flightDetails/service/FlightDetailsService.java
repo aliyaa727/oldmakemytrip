@@ -1,16 +1,16 @@
 package com.aliyaa.assignment.mmt.flightDetails.service;
 
 import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Optional;
-
 
 import com.aliyaa.assignment.mmt.flightDetails.entity.Flights;
 
 
 public interface FlightDetailsService {
 
-	List<Flights> findAllFlights();
+	List<Flights> findAllFlights(Integer pageNumber,Integer pageSize);
 
 	Flights save(Flights flightDetailsCreate);
 
@@ -40,6 +40,14 @@ public interface FlightDetailsService {
 		LocalDate departureDate, String classType);
     List<Flights> filterByEvening(String source, String destination,
 		LocalDate departureDate, String classType);
-
+  // List<Flights> searchAndPaging(Integer pageNumber,Integer pageSize);
 	//List<FlightDetailsCreate> findByDestinationandSourceandDepartueDate(String source, String destination,LocalDate departureDate);
+
+	List<Flights> searchAndPaging(Integer pageSize, Integer pageNumber);
+
+	//List<Flights> searchingAndPaging(Integer pageSize, Integer pageNumber);
+
+//	List<Flights> searchingAndPaging(Integer pageSize, Integer pageNumber);
+
+	
 }

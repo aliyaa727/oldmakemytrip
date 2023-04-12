@@ -16,8 +16,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FlightDetailsRepository extends JpaRepository<Flights, Integer> {
-	//public List<FlightDetailsCreate> findByDestinationandSourceandDepartueDate(String destination, String source,LocalDate departureDate);
-
+	/*public List<FlightDetailsCreate> findByDestinationandSourceandDepartueDate(String destination, 
+	String source,LocalDate departureDate);
+*/
 	
 	
 		public	List<Flights> findBySourceAndDestinationAndDepartureDateAndFareDetailsClassType(@Param("source") String source, 
