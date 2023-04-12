@@ -12,7 +12,7 @@ public class Validations extends RuntimeException {
 
 	public void departAndArriveDate(LocalDate depart, LocalDate arrive) throws IOException {
 		if (depart.isAfter(arrive)) {
-			throw new IOException("Enter Valid return date");
+			throw new IOException("Enter Valid return date.");
 
 		}
 	}
@@ -32,7 +32,7 @@ public class Validations extends RuntimeException {
 		if (classType.equals("business") || classType.equals("economy")) {
 
 		} else {
-			throw new IOException("Enter valid class type");
+			throw new IOException("Enter valid class type. Class type can only be Business or economy.");
 		}
 	}
 
@@ -41,7 +41,7 @@ public class Validations extends RuntimeException {
 		if (sortType.equals("fares") || sortType.equals("duration")) {
 
 		} else {
-			throw new IOException("Enter valid sort type");
+			throw new IOException("Enter valid sort type. Sort type can only be fare or duration.");
 		}
 	}
 
@@ -50,7 +50,7 @@ public class Validations extends RuntimeException {
 
 		} else {
 			throw new IOException(
-					"Enter valid type for return date or sorting type or filter type. Only true false is accepted");
+					"Enter valid type for return date or sorting type or filter type. Only true false is accepted.");
 
 		}
 	}
@@ -59,7 +59,7 @@ public class Validations extends RuntimeException {
 		if (filterType.equals("morning") || filterType.equals("evening")) {
 
 		} else {
-			throw new IOException("Enter valid filter type");
+			throw new IOException("Enter valid filter type. Filter type can only be morning or evening.");
 		}
 	}
 }
