@@ -124,7 +124,7 @@ public class FlightDetailsController {
 			validations.trueFalse(departure.toLowerCase());
 			validations.trueFalse(sort.toLowerCase());
 			validations.trueFalse(roundTrip.toLowerCase());
-			
+			validations.paging(pageNumber,pageSize);
 		List<Flights> oneWayTripFlights=new ArrayList<>();
 		oneWayTripFlights=flightService.searchFlights(source,destination,departureDate,classType);
 

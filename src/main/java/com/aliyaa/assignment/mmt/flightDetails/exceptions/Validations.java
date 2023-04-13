@@ -78,4 +78,18 @@ public class Validations extends RuntimeException {
 			throw new IOException("Enter the source and destination. Do not leave an empty field");
 		}
 	}
+
+	public void paging(Integer pageNumber, Integer pageSize) throws IOException {
+		// TODO Auto-generated method stub
+		if(pageNumber<1)
+		{
+			throw new IOException("Enter valid page Number. It can not be negative.");
+			
+		}
+		if(pageSize<1)
+		{
+			throw new IOException("Enter valid page size. It can not be negative.");
+			
+		}	
+	}
 }
