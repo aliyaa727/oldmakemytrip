@@ -1,12 +1,11 @@
 package com.aliyaa.assignment.mmt.flightDetails.entity;
 
 import java.time.Duration;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-
-import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -18,17 +17,15 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
-@Component
 @Entity
 @Table(name = "flight_details")
 public class Flights {
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="flightNumber", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "flightNumber", fetch = FetchType.EAGER)
 	@JsonManagedReference
 	private List<FareDetails> fareDetails;
 
@@ -37,8 +34,7 @@ public class Flights {
 	@Column(name = "flight_number", nullable = true)
 	private int flightNumber;
 
-	
-	   @Column(name = "airlines", nullable = false, length=5)
+	@Column(name = "airlines", nullable = false, length = 20)
 	private String airlines;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
@@ -57,14 +53,14 @@ public class Flights {
 	private long duration;
 
 	public long getDuration() {
-		
+
 		return duration;
 	}
 
 	@PrePersist
 	@PreUpdate
 	public void setDuration() {
-		
+
 		LocalDateTime departure = LocalDateTime.of(departureDate, departureTime);
 
 		LocalDateTime arrival = LocalDateTime.of(arrivalDate, arrivalTime);
@@ -176,14 +172,10 @@ public class Flights {
 		this.destination = destination;
 	}
 
-	@Column(name = "source", nullable = false, length=5)
+	@Column(name = "source", nullable = false, length = 5)
 	private String source;
 
-	@Column(name = "destination", nullable = false, length=5)
+	@Column(name = "destination", nullable = false, length = 5)
 	private String destination;
-
-	
-
-	
 
 }

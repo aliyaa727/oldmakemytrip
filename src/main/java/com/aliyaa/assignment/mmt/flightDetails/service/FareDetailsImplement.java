@@ -75,4 +75,12 @@ public class FareDetailsImplement implements FareDetailsService {
 	}
 
 
+
+	public FareDetails findFareById(int fareDetails) {
+		// TODO Auto-generated method stub
+	return fareDetailSerRepo.findById(fareDetails).orElse(null);
+	
+	}
+
+
 	}

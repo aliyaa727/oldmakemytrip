@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
-import com.aliyaa.assignment.mmt.flightDetails.DTO.FlightsDTO;
 //import com.aliyaa.assignment.mmt.flightDetails.dao.FareDetailsRepository;
 import com.aliyaa.assignment.mmt.flightDetails.dao.FlightDetailsRepository;
 import com.aliyaa.assignment.mmt.flightDetails.entity.Flights;
@@ -109,7 +108,7 @@ List<Flights> flights= flightDetailSerRepo.findBySourceAndDestinationAndDepartur
  for(Flights flight:flights)
  {
 	 flight.getFareDetails().removeIf(fareDetail -> !fareDetail.getClassType().equals(classType));
- }
+	 }
  return flights;
 }
 
@@ -156,7 +155,7 @@ public List<Flights> sortFlight2(String source, String destination, LocalDate de
 
 
 @Override
-public List<Flights> filterByMorning(String source, String destination, LocalDate departureDate, String classType) {
+public List<Flights> filterByMorning(String source, String destination, LocalDate departureDate, String classType ) {
 
 	LocalTime check;
 	LocalTime a=LocalTime.of(05,00,00);
@@ -183,7 +182,7 @@ public List<Flights> filterByEvening(String source, String destination, LocalDat
 	LocalTime check;
 	LocalTime a=LocalTime.of(17,59,59);
 	LocalTime b=LocalTime.of(23,59,59);
-	   
+//	Pageable pageable=PageRequest.of(1, 10);
 List<Flights> flights= flightDetailSerRepo.findBySourceAndDestinationAndDepartureDateAndFareDetailsClassType(
 		source, destination, departureDate, classType);
 List<Flights> newFlights = new ArrayList<>();
@@ -199,16 +198,6 @@ for(Flights flight:flights)
  }
  return newFlights;
 }
-
-
-public List<FlightsDTO> returnsDTO(){
-//	FlightsDTO flightsDTO=new FlightsDTO(null, null, null, null, null, 0, 0);
-	
-	
-	return null;
-	
-}
-
 
 
 

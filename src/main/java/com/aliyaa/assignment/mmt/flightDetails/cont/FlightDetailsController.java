@@ -6,8 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aliyaa.assignment.mmt.flightDetails.DTO.FareDTO;
 import com.aliyaa.assignment.mmt.flightDetails.DTO.FlightsDTO;
-import com.aliyaa.assignment.mmt.flightDetails.entity.FareDetails;
 //import com.aliyaa.assignment.mmt.flightDetails.entity.FareDetails;
 import com.aliyaa.assignment.mmt.flightDetails.entity.Flights;
 import com.aliyaa.assignment.mmt.flightDetails.exceptions.Validations;
@@ -127,6 +126,8 @@ public class FlightDetailsController {
 			validations.paging(pageNumber,pageSize);
 		List<Flights> oneWayTripFlights=new ArrayList<>();
 		oneWayTripFlights=flightService.searchFlights(source,destination,departureDate,classType);
+		
+		System.out.println("size after one way filter " + oneWayTripFlights.size());
 
 
 		if(roundTrip.toLowerCase().equals("true"))
@@ -134,6 +135,8 @@ public class FlightDetailsController {
 			validations.dates(returnDate);
 		validations.departAndArriveDate(departureDate,returnDate);
 			List<Flights> roundWayTripFlights=flightService.searchFlights(destination,source,returnDate,classType);
+			System.out.println("size after round way filter " + roundWayTripFlights.size());
+			
 			oneWayTripFlights.addAll(roundWayTripFlights);
 
 			
@@ -198,17 +201,41 @@ public class FlightDetailsController {
 			}
 			
 		}
+		
+		System.out.println("size before pagination "+oneWayTripFlights.size());
 		oneWayTripFlights=flightService.searchAndPaging(pageSize,pageNumber);
-		List<FlightsDTO> flightsFound =  oneWayTripFlights.stream().map(flights-> new FlightsDTO(
-				flights.getAirlines(),
-				flights.getDepartureTime(),
-				flights.getArrivalTime(),
-				flights.getDuration(),
-				flights.getFareDetails().stream().mapToInt(FareDetails::getFare)
-				)).collect(Collectors.toList())
-				;
+		System.out.println("size after pagination "+oneWayTripFlights.size());
+		
+		ModelMapper model=new ModelMapper();
+		
+		List<FlightsDTO> flightsDto = new ArrayList<>();
+		
+		oneWayTripFlights.forEach(flight -> {
+			List<FareDTO> fareDtoList = new ArrayList<>();
+			flight.getFareDetails().forEach(fare -> fareDtoList.add(model.map(fare, FareDTO.class)));
+			FlightsDTO dto = model.map(flight, FlightsDTO.class);
+			dto.setFares(fareDtoList);
+			flightsDto.add(dto);
+		});
+		
+		
+		
+		model.map(oneWayTripFlights, FlightsDTO.class);
+	/*	List<FareDTO> fareDTO =  oneWayTripFlights.stream().map(fares -> new FareDTO(
+				fares.getFareDetails().stream().
+				))*/
+		/*List<FlightsDTO> flightsFound = oneWayTripFlights.stream().map(flights-> new FlightsDTO(
+																		flights.getAirlines(),
+																		flights.getDepartureTime(),
+																		flights.getArrivalTime(),
+										                               	flights.getDuration()),
+				flights.get)
+				               */                                     //    .collect(Collectors.toList());
+		 /*List<FareDTO> flightss=oneWayTripFlights.stream().map(flights -> new FareDTO(
+				flights.getFareDetails().stream().mapToInt(fare()),
+				flights.getFareDetails().stream().mapToInt(id()))).collect(Collectors.toList());*/
 	//	flightsFound=flightsFound.searchingAndPaging(pageSize,pageNumber);
-		return new ResponseEntity<>(flightsFound, HttpStatus.OK);
+		return new ResponseEntity<>(flightsDto, HttpStatus.OK);
 
 	}
 
