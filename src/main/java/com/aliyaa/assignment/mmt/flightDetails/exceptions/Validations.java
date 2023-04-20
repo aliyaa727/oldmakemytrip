@@ -18,16 +18,6 @@ public class Validations extends RuntimeException {
 	}
 
 	public void classValid(String classType) throws IOException {
-//	if(! classType.equals("business") || !(classType.equals("economic")))
-//	{
-//		throw new IOException("Enter valid class type");
-//	}
-
-//	System.out.print(classType);
-//	
-//	if(!classType.equals("business")) {
-//		System.out.print("true for business");
-//	}
 
 		if (classType.equals("business") || classType.equals("economy")) {
 
@@ -44,7 +34,13 @@ public class Validations extends RuntimeException {
 			throw new IOException("Enter valid sort type. Sort type can only be fare or duration.");
 		}
 	}
+	public void sortingTypeForBooking(String sortingType) throws IOException {
+		if (sortingType.equals("fares") || sortingType.equals("bookingtime")) {
 
+		} else {
+			throw new IOException("Enter valid sort type. Sort type can only be fare or bookingtime.");
+		}
+	}
 	public void trueFalse(String roundTrip) throws IOException {
 		if (roundTrip.equals("true") || roundTrip.equals("false")) {
 
@@ -71,6 +67,7 @@ public class Validations extends RuntimeException {
 			throw new IOException("Enter valid filter type. Filter type can only be morning or evening.");
 		}
 	}
+	
 	public void sourceAndDestination(String source, String destination) throws IOException
 	{
 		if(source.isEmpty() || destination.isEmpty())
@@ -81,7 +78,7 @@ public class Validations extends RuntimeException {
 
 	public void paging(Integer pageNumber, Integer pageSize) throws IOException {
 		// TODO Auto-generated method stub
-		if(pageNumber<1)
+		if(pageNumber<0)
 		{
 			throw new IOException("Enter valid page Number. It can not be negative.");
 			
@@ -91,5 +88,33 @@ public class Validations extends RuntimeException {
 			throw new IOException("Enter valid page size. It can not be negative.");
 			
 		}	
+	}
+
+	public void inputValidations(String source, String destination,
+			LocalDate departureDate, String classType,
+			String departure, String sort,
+			String roundTrip, Integer pageNumber,
+			Integer pageSize) throws IOException {
+		
+		// TODO Auto-generated method stub
+		sourceAndDestination(source, destination);
+	dates(departureDate);
+	classValid(classType);
+			trueFalse(departure);
+			trueFalse(sort);
+	trueFalse(roundTrip);
+		paging(pageNumber,pageSize);
+		
+		
+		
+		
+	}
+
+	public void inputForBookingDetails(String sort, String sortingType) throws IOException {
+		// TODO Auto-generated method stub
+		trueFalse(sort);
+		sortingTypeForBooking(sortingType);
+		
+		
 	}
 }

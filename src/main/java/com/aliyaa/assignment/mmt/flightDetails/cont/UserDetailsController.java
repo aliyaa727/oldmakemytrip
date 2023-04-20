@@ -21,14 +21,6 @@ public class UserDetailsController {
 	@Autowired
 	private UserDetailsService userService;
 
-	public UserDetailsService getUserService() {
-		return userService;
-	}
-
-	public void setUserService(UserDetailsService userService) {
-		this.userService = userService;
-	}
-
 	public UserDetailsController(UserDetailsService userService) {
 		super();
 		this.userService = userService;
@@ -53,12 +45,7 @@ public class UserDetailsController {
 	{
 		return userService.findByEmail(email);
 	}
-/*	@GetMapping("/getAllUsers/{flightNumber}")
-	public Optional<UserDetails> getAllByFlightNumber(@PathVariable int flightNumber)
-	{
-		return userService.findByFlightNumber(flightNumber);
-	}
-	*/
+
 	@GetMapping("/getAllUsers/{bookingId}")
 	public Optional<UserDetails> getAllByBookingId(@PathVariable int UserId)
 	{

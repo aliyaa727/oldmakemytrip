@@ -16,6 +16,8 @@ public class AllBookingsDTO {
 	private String destination;
 	private long duration;
 	private String classType;
+	private long fare;
+	private UserDetails userDetails;
 	public AllBookingsDTO(String airLine, LocalDate departureDate, LocalDate arrivalDate, LocalTime departureTime,
 			LocalTime arrivalTime, String source, String destination, long duration, String classType, long fare,
 			UserDetails userDetails) {
@@ -98,6 +100,5 @@ public class AllBookingsDTO {
 	public void setUserDetails(UserDetails userDetails) {
 		this.userDetails = userDetails;
 	}
-	private long fare;
-	private UserDetails userDetails;
+	
 }

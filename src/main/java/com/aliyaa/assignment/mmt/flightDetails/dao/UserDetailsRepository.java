@@ -11,6 +11,5 @@ import com.aliyaa.assignment.mmt.flightDetails.entity.UserDetails;
 public interface UserDetailsRepository extends JpaRepository<UserDetails, Integer> {
 
 	public Optional<UserDetails> findByEmail(@Param ("email") String email);
-	//public Optional<UserDetails> findByFlightNumber(@Param ("flightNumber")int flightNumber);
 	public boolean existsByEmail(String email);
 }

@@ -13,10 +13,6 @@ public interface UserDetailsService {
 	
 	UserDetails save(UserDetails userDetails);
 	
-//	Optional<UserDetails> findByFlightNumber(int flightNumber);
-	
-	//String deleteById(int bookingId);
-	
 	Optional<UserDetails> findByUserId(int UserId);
 	
 	void deleteAll();

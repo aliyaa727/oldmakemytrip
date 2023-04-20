@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.aliyaa.assignment.mmt.flightDetails.dao.UserDetailsRepository;
+import com.aliyaa.assignment.mmt.flightDetails.entity.BookingDetails;
 import com.aliyaa.assignment.mmt.flightDetails.entity.UserDetails;
 
 @Service
@@ -42,13 +43,7 @@ public class UserDetailsImplement implements UserDetailsService {
 		return userSerRepo.save(userDetails);
 	}
 
-/*	@Override
-	public Optional<UserDetails> findByFlightNumber(int flightNumber) {
-		// TODO Auto-generated method stub
-		return userSerRepo.findByFlightNumber(flightNumber);
-	}
 
-	*/
 	@Override
 	public Optional<UserDetails> findByUserId(int UserId) {
 		// TODO Auto-generated method stub
@@ -72,6 +67,11 @@ public class UserDetailsImplement implements UserDetailsService {
 	public boolean existsByEmail(String email) {
 		// TODO Auto-generated method stub
 		return userSerRepo.existsByEmail(email);
+	}
+
+	public Page<BookingDetails> findByEmail(Pageable page, String email) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.aliyaa.assignment.mmt.flightDetails.service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import java.util.List;
@@ -21,33 +22,41 @@ public interface FlightDetailsService {
 	Optional<?> findByFlightNumber(int flightNumber);
 
 	Optional<Flights> findById(int flightNum);
-	//public List<FlightDetailsCreate> findByDestinationandSourceandDepartureDate(String destination, String source,LocalDate departureDate);
-
+	
+	
 	List<Flights> findBySourceAndDestinationAndDepartureDateAndClassType(String source, String destination,
 			LocalDate departureDate, String classType);
+	
 	List<Flights> searchFlights(String source, String destination, LocalDate departureDate, String classType);
 
 	List<Flights> findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByDuration(String source, String destination,
 			LocalDate departureDate, String classType);
-    List<Flights> sortFlight1(String source, String destination,
+  
+	List<Flights> sortFlight1(String source, String destination,
 		LocalDate departureDate, String classType);
-    List<Flights> findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByFareDetailsFare(String source, String destination,
+  
+	List<Flights> findBySourceAndDestinationAndDepartureDateAndFareDetailsClassTypeOrderByFareDetailsFare(String source, String destination,
 		LocalDate departureDate, String classType);
-    List<Flights> sortFlight2(String source, String destination,
+  
+	List<Flights> sortFlight2(String source, String destination,
 
 		LocalDate departureDate, String classType);
-    List<Flights> filterByMorning(String source, String destination,
+   
+	List<Flights> filterByMorning(String source, String destination,
 		LocalDate departureDate, String classType);
-    List<Flights> filterByEvening(String source, String destination,
+  
+	List<Flights> filterByEvening(String source, String destination,
 		LocalDate departureDate, String classType);
-  // List<Flights> searchAndPaging(Integer pageNumber,Integer pageSize);
-	//List<FlightDetailsCreate> findByDestinationandSourceandDepartueDate(String source, String destination,LocalDate departureDate);
-
+ 
 	List<Flights> searchAndPaging(Integer pageSize, Integer pageNumber);
 
-	//List<Flights> searchingAndPaging(Integer pageSize, Integer pageNumber);
+	List<Flights> searchOfFlights(String source, String destination, 
+			LocalDate departureDate, String classType,
+			String roundTrip, LocalDate returnDate, String sort,
+			String sortingType, String departure,
+			String departureType, Integer pageNumber, 
+			Integer pageSize) throws IOException;
 
-//	List<Flights> searchingAndPaging(Integer pageSize, Integer pageNumber);
-
+	
 	
 }

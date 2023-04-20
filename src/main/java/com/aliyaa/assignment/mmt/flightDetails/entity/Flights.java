@@ -30,7 +30,7 @@ public class Flights {
 	private List<FareDetails> fareDetails;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "flight_number", nullable = true)
 	private int flightNumber;
 

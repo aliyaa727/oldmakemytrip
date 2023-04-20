@@ -19,30 +19,35 @@ public class FareDetailsController {
 	
 	@Autowired(required = false)
 	private FareDetailsService fareService;
-	
+	//constructor
 	public FareDetailsController(FareDetailsService fareService) {
 	super();
 	this.fareService = fareService;
 	}
+	//method to get all the fares
 	@GetMapping("/fares")
 	public List<FareDetails> getAllFares() {
 	return fareService.findAllFares();
 	}
+	//method to get by fare id
 	@PostMapping("/fares/{flightNumber}")
 	public FareDetails addFare(@RequestBody FareDetails fareDetails) {
 	FareDetails faredetails = fareService.save(fareDetails);
 	return faredetails;
 	}
+	//method to update the fare
 	@PutMapping("/faresUpdate")
 	public FareDetails updateFare(@RequestBody FareDetails fareDetails) {
 	FareDetails fare_details = fareService.save(fareDetails);
 	return fare_details;
 	 }
+	//method to delete by flight number
 	@DeleteMapping("/deleteFares/{flightNumber}")
 	public String deleteFare(@PathVariable int flightNumber) {     
 	fareService.deleteByFlightNumber(flightNumber);
 	return "Deleted fare for flight number" + flightNumber;
 	}
+	//method to delete all the entries of the table
 	@DeleteMapping("/deleteAllFares")
 	public String deleteAllFares(FareDetails fareDetails) {
 	fareService.deleteAll();
