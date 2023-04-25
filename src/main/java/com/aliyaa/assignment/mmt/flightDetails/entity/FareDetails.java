@@ -16,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "fare_details")
@@ -26,7 +27,7 @@ public class FareDetails {
 	@Column(name = "id")
 	private int id;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "flight_number", nullable = false)
 	@JsonBackReference
 	private Flights flightNumber;
@@ -93,11 +94,11 @@ public class FareDetails {
 	public void setFare(int fare) {
 		this.fare = fare;
 	}
-
-	@Column(name = "Class_type", nullable = false)
+	 @NotNull
+	@Column(name = "Class_type")
 	private String classType;
-
-	@Column(name = "fare", nullable = false)
+	 @NotNull
+	@Column(name = "fare")
 	private int fare;
 
 

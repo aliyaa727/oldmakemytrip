@@ -13,13 +13,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 
 @Table(name="user_details")
 public class UserDetails {
 	
-	@OneToMany(cascade = CascadeType.MERGE, mappedBy="userDetails", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="userDetails", fetch = FetchType.EAGER)
 	@JsonManagedReference(value="user-details")
 	private List<BookingDetails> bookingDetails;
 
@@ -28,19 +31,18 @@ public class UserDetails {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="user_id")
 	private int userId;
-	  
+	@NotEmpty(message="Enter the first name")
 	@Column(name="first_name")
 	private String firstName;
-	
+	@NotEmpty(message="Enter the last name")
 	@Column(name="last_name")
 	private String lastName;
-	
 	@Column(name="phone_number", length=10)
 	private long phoneNumber;
-	
+	@NotEmpty(message="Enter the gender")
 	@Column(name="gender")
 	private String gender;
-	
+	@Email
 	@Column(name="email")
 	private String email;
 

@@ -91,15 +91,6 @@ public class BookingDetailsImplement implements BookingDetailsService {
 		this.fareService = fareService;
 	}
 
-	public List<BookingDetails> sortByFares(List<BookingDetails> bookings) {
-
-		return bookings;
-	}
-
-	public List<BookingDetails> sortByBookingTime(List<BookingDetails> bookings) {
-
-		return bookings;
-	}
 
 	@Override
 	public BookingDetails save(BookingDTO bookingDetails) {

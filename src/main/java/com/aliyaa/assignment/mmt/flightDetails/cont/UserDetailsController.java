@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aliyaa.assignment.mmt.flightDetails.entity.UserDetails;
 import com.aliyaa.assignment.mmt.flightDetails.service.UserDetailsService;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class UserDetailsController {
 
@@ -28,7 +30,7 @@ public class UserDetailsController {
 	
 	
 	@PostMapping("/userDetails")
-	public UserDetails saveDetails(@RequestBody UserDetails userDetails)
+	public UserDetails saveDetails(@Valid @RequestBody UserDetails userDetails)
 	{
 		return userService.save(userDetails);
 	}

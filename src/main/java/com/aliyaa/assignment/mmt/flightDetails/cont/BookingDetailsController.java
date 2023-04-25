@@ -21,6 +21,8 @@ import com.aliyaa.assignment.mmt.flightDetails.DTO.BookingDTO;
 import com.aliyaa.assignment.mmt.flightDetails.entity.BookingDetails;
 import com.aliyaa.assignment.mmt.flightDetails.service.BookingDetailsService;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class BookingDetailsController {
 	
@@ -31,6 +33,9 @@ public class BookingDetailsController {
 		super();
 		this.bookService = bookService;
 	}
+	//method to show booking 
+	//by email
+	//by flight number
 	@GetMapping("/bookings")
 	public List<AllBookingsDTO> getAllBookings(
 			@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
@@ -43,7 +48,7 @@ public class BookingDetailsController {
 			}
 //method to save all the bookings
 	@PostMapping("/saveBookings")
-	public String saveBookings(@RequestBody BookingDTO bookingDTO)
+	public String saveBookings(@Valid @RequestBody BookingDTO bookingDTO)
 	{
 		bookService.save(bookingDTO);
 		return "Saved";

@@ -21,6 +21,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "flight_details")
@@ -31,18 +33,20 @@ public class Flights {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "flight_number", nullable = true)
+	@Column(name = "flight_number")
 	private int flightNumber;
-
-	@Column(name = "airlines", nullable = false, length = 20)
+	
+	 @NotEmpty(message="Enter the airline name")
+	@Column(name = "airlines",length = 20)
 	private String airlines;
-
+	 
+	 
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@Column(name = "departure_date", nullable = false)
+	@Column(name = "departure_date")
 	private LocalDate departureDate;
-
+	 
 	@JsonFormat(pattern = "HH:mm:ss")
-	@Column(name = "departure_time", nullable = false)
+	@Column(name = "departure_time")
 	private LocalTime departureTime;
 
 	public LocalDate getDepartureDate() {
@@ -81,13 +85,12 @@ public class Flights {
 	public void setArrivalDate(LocalDate arrivalDate) {
 		this.arrivalDate = arrivalDate;
 	}
-
 	@JsonFormat(pattern = "HH:mm:ss")
-	@Column(name = "arrival_time", nullable = false)
+	@Column(name = "arrival_time")
 	private LocalTime arrivalTime;
-
+	
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@Column(name = "arrival_Date", nullable = false)
+	@Column(name = "arrival_Date")
 	private LocalDate arrivalDate;
 
 	public List<FareDetails> getFareDetails() {
@@ -171,11 +174,13 @@ public class Flights {
 	public void setDestination(String destination) {
 		this.destination = destination;
 	}
-
-	@Column(name = "source", nullable = false, length = 5)
+	
+	@NotEmpty(message="Enter the source")
+	@Column(name = "source",length = 20)
 	private String source;
-
-	@Column(name = "destination", nullable = false, length = 5)
+	 
+	@NotEmpty(message="Enter the destination")
+	@Column(name = "destination",length = 20)
 	private String destination;
 
 }

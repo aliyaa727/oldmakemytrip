@@ -69,9 +69,5 @@ public class UserDetailsImplement implements UserDetailsService {
 		return userSerRepo.existsByEmail(email);
 	}
 
-	public Page<BookingDetails> findByEmail(Pageable page, String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }

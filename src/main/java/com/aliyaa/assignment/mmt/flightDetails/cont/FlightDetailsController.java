@@ -25,6 +25,8 @@ import com.aliyaa.assignment.mmt.flightDetails.DTO.FlightsDTO;
 import com.aliyaa.assignment.mmt.flightDetails.entity.Flights;
 import com.aliyaa.assignment.mmt.flightDetails.service.FlightDetailsService;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class FlightDetailsController {
 
@@ -33,13 +35,13 @@ public class FlightDetailsController {
 
 	// method to save the flights
 	@PostMapping("/flightSave")
-	public Flights insertFlight(@RequestBody Flights flightDetailsCreate) {
+	public Flights insertFlight(@Valid @RequestBody Flights flightDetailsCreate) {
 		return flightService.save(flightDetailsCreate);
 	}
 
 	// method to update the flights
 	@PutMapping("/flightUpdate")
-	public String updateFlight(@RequestBody Flights flightDetailsCreate) {
+	public String updateFlight(@Valid @RequestBody Flights flightDetailsCreate) {
 		flightService.save(flightDetailsCreate);
 		return "Updated";
 	}
@@ -114,8 +116,9 @@ public class FlightDetailsController {
 			dto.setFares(fareDtoList);
 			flightsDto.add(dto);
 		});
-
+       
 		model.map(oneWayTripFlights, FlightsDTO.class);
+		
 		return new ResponseEntity<>(flightsDto, HttpStatus.OK);
 
 	}

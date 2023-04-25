@@ -28,12 +28,12 @@ public class BookingDetails {
 	@Column(name="booking_time")
 	private LocalDateTime bookingTime;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="user_id",nullable=false)
 	@JsonBackReference(value="user-details")
 	private UserDetails userDetails;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="fare_id", nullable=false)
 	@JsonBackReference(value="booking-details")
 	private FareDetails fareDetails;
